@@ -13,6 +13,14 @@ struct tableau {
 	int array[500][500];
 }; 
 
+typedef struct id_nom ID_NOM;
+struct id_nom {
+	int taille;
+	int array[50];
+};
+
+
+
 /*****************************************************************************/
 //Gestion de tableau
 
@@ -28,13 +36,13 @@ TABLEAU initTab(TABLEAU t) {
 	return t;	
 }
 
-char initTab_char(char tab[30]) {
+ID_NOM initTab_char(ID_NOM t) {
 	int n;
-
-	for(n=0; n<30; n++){
-		tab[n]='\0';
+	t.taille=30;
+	for(n=0; n<t.taille; n++){
+		t.array[n]='\0';
 	}
-	return tab[30];	
+	return t;	
 }
 
 void afficherTab(TABLEAU t) {
@@ -51,35 +59,33 @@ void afficherTab(TABLEAU t) {
 /******************************************************************************/
 //Gestion de fichier
 
-char id_station(int chiffre) {
+ID_NOM id_station(int chiffre) {
 
     FILE* fichier = NULL;
-    int s;
+    int ligne, carac=0;
     char caractereActuel = 0;
-    char station[30];
+    ID_NOM station;
 
     fichier = fopen("metro.txt", "r");
     //fichier = fopen("test.txt", "r");
 
     if(fichier != NULL) {
-    	//printf("Le fichier est ouvert! \n");
-
-		for(s=-4; s<chiffre; s++){//s permet de recuperer la ligne du fichier, -4 car 4ligne au début
+		for(ligne=-4; ligne<chiffre; ligne++){//s permet de recuperer la ligne du fichier, -4 car 4ligne au début
 	        do {
 	        	caractereActuel=fgetc(fichier);
-	        	if(chiffre-1==s ){
-		        	station[30]=caractereActuel;
-					printf("%c", station[30]);
+	        	if(chiffre-1==ligne){
+		        	station.array[carac]=caractereActuel;
+					//printf("%c", station[30]);
 	        	}
-
+	        	carac++;
 	        }while(caractereActuel != '\n' && caractereActuel != EOF);  //\n met cela pour les ligne du for au dessus
+			carac=0;
 		}      
-
 		fclose(fichier);
     }else
         printf("Impossible d'ouvrir le fichier des stations de métro...\n");
 
-    return station[30];
+    return station;
 }
 
 
@@ -97,7 +103,7 @@ TABLEAU temps_station(TABLEAU t) {
 	        do{
 		        caractereActuel=fgetc(fichier);
 		        n++;
-		        if(379==s && n==4){ //n permet de recuperer 
+		        if(379==s && n==1){ //n permet de recuperer 
 		        	printf("%c", caractereActuel);
 		        	//caractereActuel
 		        	//t.array[]
@@ -113,23 +119,32 @@ TABLEAU temps_station(TABLEAU t) {
     return t;
 }
 
+
+
 int main() {
 
-	TABLEAU t;
-	t=initTab(t);
-	int s;
+	//TABLEAU t;
+	//t=initTab(t);
+	int s,n;
+	ID_NOM station;
+
+
+	station=initTab_char(station);
+	station=id_station(0);
+
+	for(s=0;s<30;s++){
+		printf("%c", station.array[s]);
+	}
+
 
 /*
-	char station[30];
-	station[30]=initTab_char(station);
-	station[30]=id_station(1);
 	for(s=0;s<30;s++){
-		printf("%c", station[s]);
+		printf("%c", id_toute_station[0].station.array[s]);
 	}
 */
 
 
-	t=temps_station(t);
+	//t=temps_station(t);
 
 
 	return 0;
