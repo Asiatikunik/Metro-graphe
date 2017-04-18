@@ -136,14 +136,11 @@ int main() {
 		printf("%c", station.array[s]);
 	}
 
-
 /*
 	for(s=0;s<30;s++){
 		printf("%c", id_toute_station[0].station.array[s]);
 	}
 */
-
-
 	//t=temps_station(t);
 
 
